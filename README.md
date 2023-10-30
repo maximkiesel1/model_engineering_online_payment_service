@@ -1,4 +1,6 @@
 # Predictive Model for Optimizing Online Credit Card Payments
+![cardmapr-nl-s8F8yglbpjo-unsplash](https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/256390cd-0953-46c9-886a-247c8ad60aa2)
+
 # Introduction
 This repository contains the implementation of a predictive model for optimizing online credit card payments for a large, globally operating retail company experiencing reliability issues with online payments. High failure rates of online credit card payments have led to significant financial losses for the company and decreased customer satisfaction.
 
