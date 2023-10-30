@@ -26,28 +26,28 @@ First, a simple baseline machine learning model is created, in this case, a Rand
 The data is split in an 80/20 ratio into training and test data. Cross-validation is used to obtain a robust estimate of model performance. This model achieves a weighted F1 score of 0.7120, which is a solid performance for a baseline model.
 
 To improve the performance of the Random Forest model, hyperparameter optimization is performed using grid search. The optimized parameters are:
+- Number of decision trees
+  - 'n_estimators': [50, 100, 200]
+- Maximum number of features considered when splitting a node
+  - 'max_features': ['sqrt', 'log2']
+- Maximum depth of the decision trees
+  - 'max_depth': [4,5,6,7,8]
+- Criterion for the quality of a split
+  - 'criterion': ['gini', 'entropy']
 
-Number of decision trees
-'n_estimators': [50, 100, 200]
-Maximum number of features considered when splitting a node
-'max_features': ['sqrt', 'log2']
-Maximum depth of the decision trees
-'max_depth': [4,5,6,7,8]
-Criterion for the quality of a split
-'criterion': ['gini', 'entropy']
 The optimization provides the following parameters:
+- 'n_estimators': 200
+- 'max_features': 'sqrt'
+- 'max_depth': 8
+- 'criterion': 'gini'
 
-'n_estimators': 200
-'max_features': 'sqrt'
-'max_depth': 8
-'criterion': 'gini'
 With the optimized parameters, the F1 score improves to 0.7675.
 
 As an alternative to the Random Forest model, a Gradient Boosting model is tested. The optimization of this model yields the following parameters:
+- 'n_estimators': 300
+- 'learning_rate': 1
+- 'max_depth': 5
 
-'n_estimators': 300
-'learning_rate': 1
-'max_depth': 5
 With these optimized parameters, the Gradient Boosting model achieves an F1 score of 0.7468.
 
 Based on these results, the optimized Random Forest model is selected for the production environment.
