@@ -30,7 +30,7 @@ The dataset does not contain any missing values and duplicates are present only 
 - `3D_secured`: Contains only values 0 and 1. The use of 3D identification is low (more 0 than 1 values) with a usage rate of only 24%. However, the success rate of a payment attempt using 3D-Secure is at 85%.
 <img width="1025" alt="Bildschirmfoto 2023-09-20 um 12 39 41" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/0863f2ba-3557-4259-8432-eb00ccb11e9d">
 
-# Features Engineering
+# Feature Engineering
 The timestamp "tmsp" is split into several features to better capture the temporal dimension of the data. These split creates the new features "Year", "Month", "Day", "Day of the Week" (numeric series 0 to 6), "Quarter", "On a Weekend" (as binary 0 or 1), and "Hour". This transformation allows the models to better recognize seasonal and cyclic patterns in the data.
 
 The feature "amount" was converted from continuous numerical data to ordinal numerical data by dividing the continuous numerical data into four quantiles. This transformation allows for the effects of transfer amounts on transaction success to be examined not as a continuous value, but in the form of categories.
@@ -44,27 +44,37 @@ The amount of features increase from 7 to 15 features.
 # Model Training, Optimization, and Deployment
 First, a simple baseline machine learning model is created, in this case, a Random Forest classification algorithm, to check the general performance capability of a model with the existing data and features and to switch a preliminary ML model to production as quickly as possible.
 
-The data is split in an 80/20 ratio into training and test data. Cross-validation is used to obtain a robust estimate of model performance. This model achieves a weighted F1 score of 0.7120, which is a solid performance for a baseline model.
+The data is split in an 80/20 ratio into training and test data. Cross-validation is used to obtain a robust estimate of model performance. This model achieves a weighted F1 score of 0.7120, which is a solid performance for a baseline model. Weighted F1 score used due to unbalanced data.
+
+Here is the feature importance of the baseline model:
+<img width="1045" alt="Bildschirmfoto 2023-10-21 um 16 04 29" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/71686ca9-3d4b-48ef-9d63-c487f8fdc14a">
+
 
 To improve the performance of the Random Forest model, hyperparameter optimization is performed using grid search. The optimized parameters are:
 - Number of decision trees
-  - 'n_estimators': [50, 100, 200]
+  - `n_estimators`: [50, 100, 200]
 - Maximum number of features considered when splitting a node
-  - 'max_features': ['sqrt', 'log2']
+  - `max_features`: ['sqrt', 'log2']
 - Maximum depth of the decision trees
-  - 'max_depth': [4,5,6,7,8]
+  - `max_depth`: [4,5,6,7,8]
 - Criterion for the quality of a split
-  - 'criterion': ['gini', 'entropy']
+  - `criterion`: ['gini', 'entropy']
 
 The optimization provides the following parameters:
-- 'n_estimators': 200
-- 'max_features': 'sqrt'
-- 'max_depth': 8
-- 'criterion': 'gini'
+- `n_estimators`: 200
+- `max_features`: 'sqrt'
+- `max_depth`: 8
+- `criterion`: 'gini'
 
-With the optimized parameters, the F1 score improves to 0.7675.
+With the optimized parameters, the F1 score improves to `0.7675`.
+
+Here is the change of the feature importance compared to the baseline model:
+<img width="1034" alt="Bildschirmfoto 2023-10-21 um 16 11 28" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/ea7ab8ba-9575-413c-8a38-58502f49f38d">
 
 As an alternative to the Random Forest model, a Gradient Boosting model is tested. The optimization of this model yields the following parameters:
+- Verwendung von Grid_search mit folgenden Parametern:
+  - { 'n_estimators': [100, 200, 300], 'learning_rate': [0.01, 0.1, 1], 'max_depth': [3, 5, 7]}
+
 - 'n_estimators': 300
 - 'learning_rate': 1
 - 'max_depth': 5
