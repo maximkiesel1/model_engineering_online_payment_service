@@ -78,19 +78,19 @@ As an alternative to the Random Forest model, a Gradient Boosting model is teste
 - Number of boosting stages
   - 'n_estimators': [100, 200, 300]
 - Learning rate
-  - 'learning_rate': [0.01, 0.1, 1]
+  - `learning_rate`: [0.01, 0.1, 1]
 - Maximum depth of the individual regression estimators
-  - 'max_depth': [3, 5, 7]
+  - `max_depth`: [3, 5, 7]
 
 The optimization provides the following optimized parameters:
 
-- 'n_estimators': 300
-- 'learning_rate': 1
-- 'max_depth': 5
+- `n_estimators`: 300
+- `learning_rate`: 1
+- `max_depth`: 5
 
 This also indicates that higher parameters of 'n_estimators' and 'learning_rate' could be used to improve the model performance.
 
-With these optimized parameters, the Gradient Boosting model achieves an F1 score of '0.7468'.
+With these optimized parameters, the Gradient Boosting model achieves an F1 score of `0.7468`.
 
 Here is the change of the feature importance compared to the baseline model:
 
@@ -98,7 +98,13 @@ Here is the change of the feature importance compared to the baseline model:
 
 Based on these results, the optimized Random Forest model is selected for the production environment.
 
-For the prodcution algorithm the pretrained model is used. At firs
+For the prodcution algorithm the pretrained model is used. The function takes as input a DataFrame containing transaction data. It performs feature engineering to extract and encode the relevant features. Then, it utilizes a pre-trained RandomForestClassifier model to predict the optimal PSP for each transaction, based on minimizing cost and maximizing prediction success.
+
+The function iterates through each PSP for each transaction, sets the corresponding PSP column to 1, and makes a prediction with the trained model. If the prediction indicates success, the PSP is stored in a list. This process is repeated for all PSPs for each transaction. From the list of successful PSPs for each transaction, the function selects the PSP with the minimum cost as the optimal PSP. If no PSP was predicted as successful, it defaults to a specified PSP.
+
+The output is a dictionary mapping each transaction to the optimal PSP. This output can be used to guide the selection of the PSP for future transactions, thereby optimizing transaction success rate and minimizing costs.
 
 # Conclusion
-This work contributes to a better understanding of the challenges and opportunities of optimizing online credit card payments. It shows that data-driven modeling and machine learning can be effective tools in addressing these challenges and offers practical solutions that can be applied in similar contexts.
+A potential weakness of the system is that if no promising PSP can be found, the most cost-effective PSP is selected. This could lead to subsequent costs, as the PSP may not be able to successfully carry out the transaction. Therefore, it is crucial to regularly monitor and maintain the model after the deployment phase. The model's performance should be checked and adjusted to new data if necessary.
+
+Performance metrics such as the F1-Score are monitored to ensure the model continues to provide accurate predictions. Furthermore, the model is frequently trained with new data to keep it up-to-date and ensure its performance. If significant deviations in performance metrics occur, a re-optimization of hyperparameters or a model switch is considered.
