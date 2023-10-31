@@ -31,13 +31,13 @@ The dataset does not contain any missing values and duplicates are present only 
 <img width="1025" alt="Bildschirmfoto 2023-09-20 um 12 39 41" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/0863f2ba-3557-4259-8432-eb00ccb11e9d">
 
 # Feature Engineering
-The timestamp "tmsp" is split into several features to better capture the temporal dimension of the data. These split creates the new features "Year", "Month", "Day", "Day of the Week" (numeric series 0 to 6), "Quarter", "On a Weekend" (as binary 0 or 1), and "Hour". This transformation allows the models to better recognize seasonal and cyclic patterns in the data.
+The timestamp "tmsp" is split into several features to better capture the temporal dimension of the data. These split creates the new features `Year`, `Month`, `Day`, `Day of the Week` (numeric series 0 to 6), `Quarter`, `On a Weekend` (as binary 0 or 1), and `Hour`. This transformation allows the models to better recognize seasonal and cyclic patterns in the data.
 
-The feature "amount" was converted from continuous numerical data to ordinal numerical data by dividing the continuous numerical data into four quantiles. This transformation allows for the effects of transfer amounts on transaction success to be examined not as a continuous value, but in the form of categories.
+The feature `amount` was converted from continuous numerical data to ordinal numerical data by dividing the continuous numerical data into four quantiles. This transformation allows for the effects of transfer amounts on transaction success to be examined not as a continuous value, but in the form of categories.
 
-The feature "country" is omitted, as there is no significant correlation with the target variable "success".
+The feature `country` is omitted, as there is no significant correlation with the target variable `success`.
 
-The features "card" and "PSP" are transformed using one-hot encoding. One-hot encoding is a method for converting categorical data into a binary format that can be processed by machine learning models.
+The features `card` and `PSP` are transformed using one-hot encoding. One-hot encoding is a method for converting categorical data into a binary format that can be processed by machine learning models.
 
 The amount of features increase from 7 to 15 features.
 
@@ -76,7 +76,7 @@ Here is the change of the feature importance compared to the baseline model:
 As an alternative to the Random Forest model, a Gradient Boosting model is tested. Hyperparameter optimization is performed using grid search with the following parameters:
 
 - Number of boosting stages
-  - 'n_estimators': [100, 200, 300]
+  - `n_estimators`: [100, 200, 300]
 - Learning rate
   - `learning_rate`: [0.01, 0.1, 1]
 - Maximum depth of the individual regression estimators
