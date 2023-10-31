@@ -39,7 +39,7 @@ The feature `country` is omitted, as there is no significant correlation with th
 
 The features `card` and `PSP` are transformed using one-hot encoding. One-hot encoding is a method for converting categorical data into a binary format that can be processed by machine learning models.
 
-The amount of features increase from 7 to 15 features.
+The amount of features increase from 8 to 15 features.
 
 # Model Training, Optimization, and Deployment
 First, a simple baseline machine learning model is created, in this case, a Random Forest classification algorithm, to check the general performance capability of a model with the existing data and features and to switch a preliminary ML model to production as quickly as possible.
