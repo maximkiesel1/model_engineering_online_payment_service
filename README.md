@@ -1,19 +1,33 @@
 # Predictive Model for Optimizing Online Credit Card Payments
 ![cardmapr-nl-s8F8yglbpjo-unsplash](https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/256390cd-0953-46c9-886a-247c8ad60aa2)
 
-# Introduction
-This repository contains the implementation of a predictive model for optimizing online credit card payments for a large, globally operating retail company experiencing reliability issues with online payments. High failure rates of online credit card payments have led to significant financial losses for the company and decreased customer satisfaction.
+# Introduction Usecase
+This repository contains the implementation of a predictive model for optimizing online credit card payments for a fictitious operating retail company experiencing reliability issues with online payments. High failure rates of online credit card payments could led to significant financial losses for the company and decreased customer satisfaction.
 
 Online credit card payments are typically processed through specialized service providers called Payment Service Providers (PSPs). The selection of the appropriate PSP for a specific transaction is currently based on a fixed rule set and is done manually. However, it is believed that a data-driven predictive model can lead to more precise and efficient decisions.
 
-Project Organization and Use Case Description
-This project follows the CRISP-DM model (Cross-Industry Standard Process for Data Mining), a widely-used procedural model for data mining projects. It offers a structured approach to carrying out data mining projects and ensures that all important aspects of the project are taken into account.
-
-The client for this project is the online payment department of a large retail company. The department is facing the problem that the costs and number of failed transactions are high. The primary reason for this is the static logic used to decide which PSP to use for a particular transaction.
-
 The main goal of the project is to reduce transaction failures and transaction costs. This is achieved by developing a predictive model capable of automatically selecting the most suitable PSP for a particular transaction. The objective is to increase the success rate of transactions while simultaneously minimizing transaction costs.
 
-# Features Explanation
+# EDA
+The dataset consists of 50,410 rows and 8 columns with the following features:
+- „Unnamed: 0“	int64: Consecutive row number
+- „tmsp“	datetime64[ns]: Timestamp of the transfer/transaction
+- „country“	object: Country of transfer
+- „amount“	int64: Transfer amount
+- „success“	int64: if “1”, then the transfer is successful (target variable)
+- „PSP“	object: Name of the payment service provider (PSP = payments service provider)
+- „3D_secured“	int64: if “1”, then the customer is 3D identified (thus an even more secure online credit card payment)
+- „card“	object: Credit card providers (Master, Visa, Diners)
+
+The dataset does not contain any missing values and duplicates are present only in single occurrences.
+
+- `amount`: The highest and lowest transfer amounts are plausible with an average of €202.40 and a standard deviation of €96.27. The data distribution follows a normal distribution. There is no correlation between amount and 3D_secured, indicating no correlation that could distort the ML model.
+
+- `success`: Contains only values 0 and 1. There are significantly more failed payment attempts than successful ones (more 0 than 1 values), indicating a failure rate of 80%. This necessitates a balancing strategy for the ML algorithm. The average smaller amounts are successfully transferred. There is a statistical significance that success and 3D_secured are dependent. There is no correlation between amount and success, indicating amount is rather irrelevant for the ML model.
+
+- `3D_secured`: Contains only values 0 and 1. The use of 3D identification is low (more 0 than 1 values) with a usage rate of only 24%. However, the success rate of a payment attempt using 3D-Secure is at 85%.
+
+# Features Engineering
 The timestamp "tmsp" is split into several features to better capture the temporal dimension of the data. These split creates the new features "Year", "Month", "Day", "Day of the Week" (numeric series 0 to 6), "Quarter", "On a Weekend" (as binary 0 or 1), and "Hour". This transformation allows the models to better recognize seasonal and cyclic patterns in the data.
 
 The feature "amount" was converted from continuous numerical data to ordinal numerical data by dividing the continuous numerical data into four quantiles. This transformation allows for the effects of transfer amounts on transaction success to be examined not as a continuous value, but in the form of categories.
@@ -21,6 +35,8 @@ The feature "amount" was converted from continuous numerical data to ordinal num
 The feature "country" is omitted, as there is no significant correlation with the target variable "success".
 
 The features "card" and "PSP" are transformed using one-hot encoding. One-hot encoding is a method for converting categorical data into a binary format that can be processed by machine learning models.
+
+The amount of features increase from 7 to 15 features.
 
 # Model Training, Optimization, and Deployment
 First, a simple baseline machine learning model is created, in this case, a Random Forest classification algorithm, to check the general performance capability of a model with the existing data and features and to switch a preliminary ML model to production as quickly as possible.
