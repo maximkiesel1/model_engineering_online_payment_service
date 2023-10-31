@@ -10,22 +10,25 @@ The main goal of the project is to reduce transaction failures and transaction c
 
 # EDA
 The dataset consists of 50,410 rows and 8 columns with the following features:
-- „Unnamed: 0“	int64: Consecutive row number
-- „tmsp“	datetime64[ns]: Timestamp of the transfer/transaction
-- „country“	object: Country of transfer
-- „amount“	int64: Transfer amount
-- „success“	int64: if “1”, then the transfer is successful (target variable)
-- „PSP“	object: Name of the payment service provider (PSP = payments service provider)
-- „3D_secured“	int64: if “1”, then the customer is 3D identified (thus an even more secure online credit card payment)
-- „card“	object: Credit card providers (Master, Visa, Diners)
+- `Unnamed: 0`	int64: Consecutive row number
+- `tmsp`	datetime64[ns]: Timestamp of the transfer/transaction
+- `country`	object: Country of transfer
+- `amount`	int64: Transfer amount
+- `success`	int64: if “1”, then the transfer is successful (target variable)
+- `PSP`	object: Name of the payment service provider (PSP = payments service provider)
+- `3D_secured`	int64: if “1”, then the customer is 3D identified (thus an even more secure online credit card payment)
+- `card`	object: Credit card providers (Master, Visa, Diners)
 
 The dataset does not contain any missing values and duplicates are present only in single occurrences.
 
 - `amount`: The highest and lowest transfer amounts are plausible with an average of €202.40 and a standard deviation of €96.27. The data distribution follows a normal distribution. There is no correlation between amount and 3D_secured, indicating no correlation that could distort the ML model.
+<img width="1003" alt="Bildschirmfoto 2023-09-20 um 12 19 27" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/b0fdae9b-478a-4832-8783-07280cbcefcc">
 
 - `success`: Contains only values 0 and 1. There are significantly more failed payment attempts than successful ones (more 0 than 1 values), indicating a failure rate of 80%. This necessitates a balancing strategy for the ML algorithm. The average smaller amounts are successfully transferred. There is a statistical significance that success and 3D_secured are dependent. There is no correlation between amount and success, indicating amount is rather irrelevant for the ML model.
+<img width="1025" alt="Bildschirmfoto 2023-09-20 um 12 27 58" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/92b7d85b-f551-428f-9645-7e2188d29f8b">
 
 - `3D_secured`: Contains only values 0 and 1. The use of 3D identification is low (more 0 than 1 values) with a usage rate of only 24%. However, the success rate of a payment attempt using 3D-Secure is at 85%.
+<img width="1025" alt="Bildschirmfoto 2023-09-20 um 12 39 41" src="https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/0863f2ba-3557-4259-8432-eb00ccb11e9d">
 
 # Features Engineering
 The timestamp "tmsp" is split into several features to better capture the temporal dimension of the data. These split creates the new features "Year", "Month", "Day", "Day of the Week" (numeric series 0 to 6), "Quarter", "On a Weekend" (as binary 0 or 1), and "Hour". This transformation allows the models to better recognize seasonal and cyclic patterns in the data.
