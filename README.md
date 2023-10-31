@@ -1,4 +1,4 @@
-# Predictive Model for Optimizing Online Credit Card Payments
+# Supervised Machine Learning Model for Optimizing Online Credit Card Payments
 ![cardmapr-nl-s8F8yglbpjo-unsplash](https://github.com/maximkiesel1/model_engineering_online_payment_service/assets/119667336/256390cd-0953-46c9-886a-247c8ad60aa2)
 
 # Introduction Usecase
