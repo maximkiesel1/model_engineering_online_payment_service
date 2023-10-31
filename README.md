@@ -66,7 +66,7 @@ The optimization provides the following parameters:
 - `max_depth`: 8
 - `criterion`: 'gini'
 
-This indicates that higher parameters of 'n_estimators' and 'max_deth' could be used to improve the model performance, but this is not done because the calculation time on the local PC would be too high. 
+This indicates that higher parameters of `n_estimators` and `max_deth` could be used to improve the model performance, but this is not done because the calculation time on the local PC would be too high. 
 
 With the optimized parameters, the F1 score improves to `0.7675`.
 
@@ -88,7 +88,7 @@ The optimization provides the following optimized parameters:
 - `learning_rate`: 1
 - `max_depth`: 5
 
-This also indicates that higher parameters of 'n_estimators' and 'learning_rate' could be used to improve the model performance.
+This also indicates that higher parameters of `n_estimators` and `learning_rate` could be used to improve the model performance.
 
 With these optimized parameters, the Gradient Boosting model achieves an F1 score of `0.7468`.
 
